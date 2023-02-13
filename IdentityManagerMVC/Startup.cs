@@ -28,6 +28,14 @@ namespace IdentityManagerMVC
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.Configure<IdentityOptions>(options =>
+            {
+                // create extra login specs.
+                options.Password.RequiredLength = 5;
+                options.Password.RequireLowercase= true;
+                options.Lockout.DefaultLockoutTimeSpan= TimeSpan.FromSeconds(30);
+                options.Lockout.MaxFailedAccessAttempts= 3;
+            });
             services.AddControllersWithViews();
         }
 

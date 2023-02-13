@@ -1,5 +1,6 @@
 ﻿using IdentityManager.Models;
 using IdentityManagerMVC.Controllers;
+using IdentityManagerMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -70,12 +71,16 @@ namespace IdentityManager.Controllers
             returnurl = returnurl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {
                     // use LocalRedirect for security
                     return LocalRedirect(returnurl);
+                }
+                if (result.IsLockedOut)
+                {
+                    return View("Lockout");
                 }
                 else
                 {
@@ -95,6 +100,21 @@ namespace IdentityManager.Controllers
             return RedirectToAction(nameof(HomeController.Index),"Home");
         }
 
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+           
+
+            return View(model);
+        }
+
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -102,5 +122,7 @@ namespace IdentityManager.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
+
+        
     }
 }
