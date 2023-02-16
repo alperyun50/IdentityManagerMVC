@@ -34,8 +34,8 @@ namespace IdentityManagerMVC.Service
                 Resource = Send.Resource,
             }
              .Property(Send.Messages, new JArray {
-     new JObject {
-      {
+              new JObject {
+              {
        "From",
        new JObject {
         {"Email", "alperyun50@protonmail.com"},
@@ -47,7 +47,7 @@ namespace IdentityManagerMVC.Service
         new JObject {
          {
           "Email",
-          "alperyun50@protonmail.com"
+          email
          }, {
           "Name",
           "alper"
