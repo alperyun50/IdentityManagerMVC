@@ -45,6 +45,12 @@ namespace IdentityManagerMVC
                 options.Lockout.MaxFailedAccessAttempts= 3;
             });
 
+            // added for access denied page call
+            services.ConfigureApplicationCookie(options => {
+
+                options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Home/AccessDeied");
+            });
+
             services.AddAuthentication().AddFacebook(options =>
             {
                 // https://developers.facebook.com/apps/736027261204194/settings/basic/ (facebook api)

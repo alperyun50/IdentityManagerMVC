@@ -64,6 +64,7 @@ namespace IdentityManager.Controllers
             RegisterViewModel registerViewModel = new RegisterViewModel() {
                 RoleList = listItems
             };
+
             return View(registerViewModel);
         }
 
@@ -102,6 +103,26 @@ namespace IdentityManager.Controllers
 
                 AddErrors(result);
             }
+
+            List<SelectListItem> listItems = new List<SelectListItem>();
+            listItems.Add(new SelectListItem()
+            {
+                Value = "Admin",
+                Text = "Admin"
+            });
+            listItems.Add(new SelectListItem()
+            {
+                Value = "User",
+                Text = "User"
+            });
+
+            ViewData["ReturnUrl"] = returnurl;
+            RegisterViewModel registerViewModel = new RegisterViewModel()
+            {
+                RoleList = listItems
+            };
+
+            model.RoleList = listItems;
 
             return View(model);
         }
